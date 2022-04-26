@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Contact form</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <style>
+      html, body {
+      min-height: 100%;
+      padding: 0;
+      margin: 0;
+      font-family: Roboto, Arial, sans-serif;
+      font-size: 14px;
+      color: #666;
+      }
+      h1 {
+      margin: 0 0 20px;
+      font-weight: 400;
+      color: #ffffff;
+      }
+
+      h2{
+      color: #000000;
+      }
+      p {
+      margin: 0 0 5px;
+      color: #000000;
+      }
+      .main-block {
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: #0f62fe;
+
+      }
+
+      form {
+      padding: 25px;
+      margin: 0 700px;
+      box-shadow: 0 2px 5px #ffffff;
+      background: #78a9ff;
+      }
+      .fas {
+      margin: 25px 10px 0;
+      font-size: 72px;
+      color: #fff;
+      }
+
+      input, textarea {
+      width: calc(100% - 18px);
+      padding: 8px;
+      margin-bottom: 20px;
+      border: 1px solid #1c87c9;
+      outline: none;
+      }
+      input::placeholder {
+      color: #666;
+      }
+      button {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      background: #1c87c9;
+      font-size: 24px;
+      font-weight: 400;
+      color: #fff;
+      }
+      button:hover {
+      background: #2371a0;
+      }
+      @media (min-width: 568px) {
+      .main-block {
+      flex-direction: row;
+      }
+      .left-part, form {
+      width: 50%;
+      }
+
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main-block">
+      <form action="{{url_for('predict')}}" method="post">
+        <h1>Predict Model</h1>
+        <div class="info">
+          <input type="text" name="sales" placeholder="Sales">
+          <input type="text" name="profit" placeholder="Profit">
+          <input type="text" name="state" placeholder="State">
+          <input type="text" name="subcat" placeholder="Sub-Category">
+        </div>
+        <p>Message</p>
+        <div>
+          {% if results['prediction'] == 1: %}
+            <h2>The order above is predicted to be returned by the customer with the probability of
+              {{(results['probability'])}}.</h2>
+          {% elif results['prediction'] == 0: %}
+            <h2>The order above is predicted not to be returned by the customer with the probability of
+              {{1 - results['probability']}}.</h2>
+          {% else: %}
+            <h2>Inputs are invalid. Try again.</h2>
+          {% endif %}
+        </div>
+        <button type="submit" href="/">Predict</button>
+      </form>
+    </div>
+  </body>
+</html>
